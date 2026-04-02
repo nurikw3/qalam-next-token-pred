@@ -1,21 +1,22 @@
 from model.cache import load_or_build_model
 from config import CSV_PATH, CACHE_PATH
+from data.preprocess import normalize_token
 
 
 class ChagataiKeyboard:
     def __init__(self):
         self.model = load_or_build_model(CSV_PATH, CACHE_PATH)
 
-    def _parse(self, typed_text):
+    def _parse(self, typed_text: str) -> tuple[list[str], str]:
         tokens = typed_text.strip().split()
-
         if not tokens:
             return [], ""
 
-        if typed_text.endswith(" "):
-            return tokens, ""
+        ends_with_space = typed_text.endswith(" ")
+        if ends_with_space:
+            return [normalize_token(t) for t in tokens], ""
         else:
-            return tokens[:-1], tokens[-1]
+            return [normalize_token(t) for t in tokens[:-1]], tokens[-1]
 
     def suggest(self, text, top_k=5):
         context, prefix = self._parse(text)

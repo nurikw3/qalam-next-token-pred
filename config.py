@@ -1,7 +1,7 @@
 import re
 
 CSV_PATH = "data/merged.txt"
-CACHE_PATH = "dataset/.ngram_cache.pkl"
+CACHE_PATH = "data/.ngram_cache.pkl"
 
 PUNCT_RE = re.compile(r"[^\w\-ʿʾ]", re.UNICODE)
 
